@@ -1479,53 +1479,32 @@ result =  '''{
     }
     '''
 
-<<<<<<< HEAD:api/backend/services/stringconvert.py
-# data = json.loads(result)
-=======
-data = json.loads(result2)
->>>>>>> 54d6ed2d3a849d2275d04c94495269cee525f405:api/backend/stringconvert.py
+# data = json.loads(result2)
 
-def convert(data) :
+def convert(d) :
     entirestring = ''
-
-<<<<<<< HEAD:api/backend/services/stringconvert.py
-    for x in data['results']: 
-        for y in x['alternatives']:
-            entirestring = y["transcript"]
-    return entirestring.lower().split("next question")
+    for result in d.get('results'): 
+      for entry in result.get("alternatives"):
+        entirestring += entry.get("transcript")
     
-=======
-    for x in d['results']: 
-        for y in x['alternatives']:
-            entirestring += y["transcript"]
     arr = entirestring.lower().split("next question")
+    
     finalarr = []
-    for x in arr :
+    for sentence in arr:
         temp = ''
-        words = x.split()
+        words = sentence.split()
         for w in words :
             if w == 'ibm' or w == 'yourself' or w == 'strengths' or w == 'job' :
                 temp += w
                 qa = {}
                 qa['question'] = temp
-                finalarr.append(qa)
                 temp = ''
             else :
                 temp += w + " "
-        qa = {}
         qa['answer'] = temp
         finalarr.append(qa)
-            
+    print finalarr     
     return finalarr
-            
-
-            
-
-
-
->>>>>>> 54d6ed2d3a849d2275d04c94495269cee525f405:api/backend/stringconvert.py
-
-# print convert(data)
 
         
     

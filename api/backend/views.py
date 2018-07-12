@@ -5,7 +5,8 @@ from django.http import JsonResponse
 
 
 def stt(request):
-    video = request.body
+    # video = request.body
+    video = "media/video.mp4"
     return JsonResponse({"response": ws.WatsonServices().convert_stt(video)})
 
 def tone(request):
