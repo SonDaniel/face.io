@@ -5,10 +5,12 @@ from django.http import JsonResponse
 
 
 def stt(request):
-    return JsonResponse({"response": ws.WatsonServices().convert_stt("media/video.mp4")})
+    video = request.body
+    return JsonResponse({"response": ws.WatsonServices().convert_stt(video)})
 
 def tone(request):
-    return JsonResponse({"response": ws.WatsonServices().get_tone("media/video.mp4")})
+    data = request.POST.get("stt_text")
+    return JsonResponse({"response": ws.WatsonServices().get_tone(data)})
     
-# def byos(request);
-#     pass
+def facial(request):
+    return JsonResponse({"response": "No data at the moment"})

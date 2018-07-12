@@ -51,13 +51,17 @@ class WatsonServices:
                         timestamps=True,
                         word_confidence=True),
                 indent=2)
+
+        print "stt text======================"
+        print stt_text
+    
         return stringconvert.convert(stt_text)
     
-    def get_tone(self, video_input):
+    def get_tone(self, json_data):
         tone_analyzer = self._get_client("tone")
         mime = 'application/json'
-        text = stringconvert.convert(self.convert_stt(video_input))
-        # text = "I love turtles!"
+        # text = stringconvert.convert(self.convert_stt(video_input))
+        text = "I love turtles!"
         tones = {}
         try:
             for line, index in enumerate(text):

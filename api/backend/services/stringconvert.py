@@ -161,7 +161,7 @@ result =  '''{
 def convert(data) :
     entirestring = ''
 
-    for x in d['results']: 
+    for x in data['results']: 
         for y in x['alternatives']:
             entirestring = y["transcript"]
     return entirestring.lower().split("next question")
