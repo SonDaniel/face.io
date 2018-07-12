@@ -42,7 +42,7 @@ class WatsonServices:
     def convert_stt(self, video_input):
         # Must specify file in same directory or abs. path to file for now
         audio = video_to_audio.get_audio(video_input)
-        stt_text = self.get_stt_text()
+        stt_text = self.get_stt_text("stt_text.json")
         if not stt_text:
             stt_text = json.dumps(
                         self.stt_client.recognize(
@@ -53,12 +53,14 @@ class WatsonServices:
                             word_confidence=True),
                     indent=2)
             stt_text = stringconvert.convert(stt_text)
+        else:
+            stt_text = json.loads(stt_text)
         return stt_text
     
-    def get_stt_text(self):
+    def get_stt_text(self, filename):
         stt_text = None
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        path = dir_path + "/" + "stt_text.txt"
+        path = dir_path + "/" + filename
         try:
             with open(path, "r") as f:
                 stt_text = f.read()
@@ -70,7 +72,7 @@ class WatsonServices:
         tone_analyzer = self._get_client("tone")
         mime = 'application/json'
         try:
-            text = self.get_stt_text()
+            text = self.get_stt_text("stt_text.txt")
             tones = tone_analyzer.tone({"text": text}, mime)
         except WatsonApiException as e:
             print "Method failed with status code " + str(e.code) + ": " + e.message 
