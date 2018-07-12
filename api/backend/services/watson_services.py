@@ -72,7 +72,6 @@ class WatsonServices:
         try:
             text = self.get_stt_text()
             tones = tone_analyzer.tone({"text": text}, mime)
-            print "----------text-----: ", text
         except WatsonApiException as e:
             print "Method failed with status code " + str(e.code) + ": " + e.message 
         return tones
