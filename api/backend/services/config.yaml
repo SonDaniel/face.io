@@ -1,0 +1,9 @@
+tone_analyzer:
+  endpoint: https://gateway.watsonplatform.net/tone-analyzer/api
+  username: 98468a78-89ba-42df-a3e4-08b43daab20b
+  password: eNGl5XpquFsK
+  version: '2017-09-21'
+speech_to_text:
+  endpoint: https://stream.watsonplatform.net/speech-to-text/api
+  username: 0f1ec3ee-ab42-4b1f-9c88-552379322f94
+  password: NGEXoBw4bA64
