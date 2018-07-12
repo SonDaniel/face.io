@@ -5,9 +5,10 @@ from django.http import JsonResponse
 
 
 def speech_to_text(request):
-    pass
+    return JsonResponse({"response": ws.WatsonServices().convert_stt(request.body)})
 
 def tone(request):
-    return JsonResponse({"response": ws.WatsonServices().get_tone()})
+    return JsonResponse({"response": ws.WatsonServices().get_tone(request.body)})
     
-
+def byos(request);
+    pass
