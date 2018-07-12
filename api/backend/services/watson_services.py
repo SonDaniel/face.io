@@ -52,7 +52,7 @@ class WatsonServices:
                         word_confidence=True),
                 indent=2)
     
-        return stringconvert.convert()
+        return stringconvert.convert(stt_text)
     
     def get_tone(self, json_data):
         tone_analyzer = self._get_client("tone")

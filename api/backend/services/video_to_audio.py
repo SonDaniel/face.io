@@ -1,4 +1,3 @@
-
 import sys
 import re
 import moviepy.editor as mp
@@ -8,7 +7,6 @@ def open_file(filename):
     with open(filename, "r") as f:
         file = f.read()
     return file
-
 
 def get_audio(video_input):
     clip = mp.VideoFileClip(video_input)
