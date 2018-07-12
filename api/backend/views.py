@@ -4,11 +4,11 @@ from backend.services import watson_services as ws
 from django.http import JsonResponse
 
 
-def speech_to_text(request):
-    return JsonResponse({"response": ws.WatsonServices().convert_stt(request.body)})
+def stt(request):
+    return JsonResponse({"response": ws.WatsonServices().convert_stt("media/video.mp4")})
 
 def tone(request):
-    return JsonResponse({"response": ws.WatsonServices().get_tone(request.body)})
+    return JsonResponse({"response": ws.WatsonServices().get_tone("media/video.mp4")})
     
-def byos(request);
-    pass
+# def byos(request);
+#     pass
