@@ -11,7 +11,7 @@ class WatsonServices:
 
     def __init__(self, audio):
         self.yml = self._get_configs()
-        self.speech_to_text = self._get_speech_to_text()
+        self.stt_client = self._get_stt_client()
 
 
     def _get_configs(self):
@@ -23,7 +23,7 @@ class WatsonServices:
                 print e
         return yml
 
-    def _get_speech_to_text(self):
+    def _get_stt_client(self):
         speech_to_text = SpeechToTextV1(
                             url=self.yml.get("speech_to_text").get("endpoint"),
                             username=self.yml.get("speech_to_text").get("username"),
@@ -32,10 +32,11 @@ class WatsonServices:
         return speech_to_text
 
     def convert_stt(self, file_name):
+        # Must specify file in same directory or abs. path to file for now
         with open(file_name, 'rb') as audio_file:
             print(
                 json.dumps(
-                    self.speech_to_text.recognize(
+                    self.stt_client.recognize(
                         audio=audio_file,
                         # must change to audio/format_type or throws error
                         content_type='audio/flac',
