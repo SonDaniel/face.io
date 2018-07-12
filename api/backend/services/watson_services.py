@@ -13,17 +13,8 @@ class WatsonServices:
 
     def __init__(self):
         self.yml = self._get_configs()
-        self.stt_client = self._get_stt_client()
-        
-
-    # def _get_configs(self):
-    #     yml = None
-    #     with open("/Users/biz/ibm_hackathon_env/facial/face.io/api/backend/services/config.yaml") as stream:
-    #         try:
-    #             yml = yaml.load(stream)
-    #         except yaml.YAMLError as e:
-    #             print e
-    #     return yml
+        self.stt_client = self._get_client("stt")
+ 
     def _get_configs(self):
         yml = None
         dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -34,14 +25,20 @@ class WatsonServices:
                 print e
         return yml
     
-    def _get_stt_client(self):
-        speech_to_text = SpeechToTextV1(
+    def _get_client(self, client_type):
+        if client_type == "stt":
+            return SpeechToTextV1(
                             url=self.yml.get("speech_to_text").get("endpoint"),
                             username=self.yml.get("speech_to_text").get("username"),
                             password=self.yml.get("speech_to_text").get("password")
                         )
-        return speech_to_text
-    
+        else:
+            return ToneAnalyzerV3(
+                            version=self.yml.get("tone_analyzer").get("version"), 
+                            username=self.yml.get("tone_analyzer").get("username"), 
+                            password=self.yml.get("tone_analyzer").get("password")
+            )
+
     def convert_stt(self, video_input):
         # Must specify file in same directory or abs. path to file for now
         audio = video_to_audio.get_audio(video_input)
@@ -53,94 +50,15 @@ class WatsonServices:
                         timestamps=True,
                         word_confidence=True),
                 indent=2)
-
-        # with open(file_name, 'rb') as audio_file:
-        #     print(
-        #         json.dumps(
-        #             self.stt_client.recognize(
-        #                 audio=audio_file,
-        #                 # must change to audio/format_type or throws error
-        #                 content_type='audio/flac',
-        #                 timestamps=True,
-        #                 word_confidence=True),
-        # indent=2))
-
-    # def _speech_to_text(self):
-    #     #TODO: call Watson STT here
     
-    #     # str =  "Please tell my wife I love her very much"
-    #     str = "Go fuck yourself!"
-    #     return str
-    
-    def get_tone(self):
-        tone_analyzer = ToneAnalyzerV3(
-                            version=self.yml.get("tone_analyzer").get("version"), 
-                            username=self.yml.get("tone_analyzer").get("username"), 
-                            password=self.yml.get("tone_analyzer").get("password")
-                        )
+    def get_tone(self, video_input):
+        tone_analyzer = self._get_client("tone")
         mime = 'application/json'
+        # text = get_stt_text()
+        text = "I love turtles!"
         tone = {}
         try:
-            tone = tone_analyzer.tone({"text": self.text}, mime)
-            print "-----outputting tone response: "
-            print tone
-            print "------end of output------"
+            tone = tone_analyzer.tone({"text": text}, mime)
         except WatsonApiException as e:
             print "Method failed with status code " + str(e.code) + ": " + e.message 
         return tone
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # def _get_configs(self):
-    #     yml = None
-    #     with open("config.yaml") as stream:
-    #         try:
-    #             yml = yaml.load(stream)
-    #         except yaml.YAMLError as e:
-    #             print e
-    #     return yml
-
-    # def _get_stt_client(self):
-    #     speech_to_text = SpeechToTextV1(
-    #                         url=self.yml.get("speech_to_text").get("endpoint"),
-    #                         username=self.yml.get("speech_to_text").get("username"),
-    #                         password=self.yml.get("speech_to_text").get("password")
-    #                     )
-    #     return speech_to_text
-
-    # def convert_stt(self, file_name):
-    #     # Must specify file in same directory or abs. path to file for now
-    #     with open(file_name, 'rb') as audio_file:
-    #         print(
-    #             json.dumps(
-    #                 self.stt_client.recognize(
-    #                     audio=audio_file,
-    #                     # must change to audio/format_type or throws error
-    #                     content_type='audio/flac',
-    #                     timestamps=True,
-    #                     word_confidence=True),
-    #     indent=2))
-
-    # def get_tone(self):
-    #     tone_analyzer = ToneAnalyzerV3(
-    #                         version=self.yaml.get("tone_analyzer").get("version"),
-    #                         username=self.yaml.get("tone_analyzer").get("username"),
-    #                         password=self.yaml.get("tone_analyzer").get("password")
-    #                     )
-    #     mime = 'application/json'
-    #     tone = {}
-    #     try:
-    #         tone = tone_analyzer.tone({"text": text}, mime)
-    #     except WatsonApiException as e:
-    #         print "Method failed with status code " + str(e.code) + ": " + e.message
-    #     return tone
