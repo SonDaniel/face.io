@@ -2,6 +2,7 @@ from watson_developer_cloud import ToneAnalyzerV3
 from watson_developer_cloud import SpeechToTextV1
 from watson_developer_cloud import WatsonApiException
 import video_to_audio
+import stringconvert
 import os 
 import yaml
 import json
@@ -42,7 +43,7 @@ class WatsonServices:
     def convert_stt(self, video_input):
         # Must specify file in same directory or abs. path to file for now
         audio = video_to_audio.get_audio(video_input)
-        return json.dumps(
+        stt_text = json.dumps(
                     self.stt_client.recognize(
                         audio=audio,
                         # must change to audio/format_type or throws error
@@ -50,15 +51,17 @@ class WatsonServices:
                         timestamps=True,
                         word_confidence=True),
                 indent=2)
+        return stringconvert.convert(stt_text)
     
     def get_tone(self, video_input):
         tone_analyzer = self._get_client("tone")
         mime = 'application/json'
-        # text = get_stt_text()
-        text = "I love turtles!"
-        tone = {}
+        text = stringconvert.convert(self.convert_stt(video_input))
+        # text = "I love turtles!"
+        tones = {}
         try:
-            tone = tone_analyzer.tone({"text": text}, mime)
+            for line, index in enumerate(text):
+                tones[index] = tone_analyzer.tone({"text": line}, mime)
         except WatsonApiException as e:
             print "Method failed with status code " + str(e.code) + ": " + e.message 
-        return tone
+        return tones

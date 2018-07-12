@@ -156,18 +156,18 @@ result =  '''{
     }
     '''
 
-data = json.loads(result)
+# data = json.loads(result)
 
-def convert(d) :
+def convert(data) :
     entirestring = ''
-
 
     for x in d['results']: 
         for y in x['alternatives']:
             entirestring = y["transcript"]
     return entirestring.lower().split("next question")
+    
 
-print convert(data)
+# print convert(data)
 
         
     
