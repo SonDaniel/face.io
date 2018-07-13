@@ -1,4 +1,7 @@
 export const Constants = {
+  "backend" : {
+    "baseUrl": ""
+  },
   "stt_response" : {
     "response": [
       {
