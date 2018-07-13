@@ -21,8 +21,8 @@ export class HomeComponent implements OnInit {
   fileInput: any;
   isDisabled: boolean = true;
 
-  sttData: any = Constants.stt_response.response;
-  toneData: any = Constants.tone_response.response.sentences_tone;
+  sttData: any = [];
+  toneData: any = [];
 
   constructor(private http: HttpService) { }
 
@@ -45,9 +45,9 @@ export class HomeComponent implements OnInit {
 
   analyzeData() {
     this.http.get('stt').subscribe((res) => {
-      console.log(res);
+      this.sttData = res.body['response'].response;
       this.http.get('tone').subscribe((res) => {
-        console.log(res);
+        this.toneData = res.body['sentences_tone'];
       })
     });
   }
