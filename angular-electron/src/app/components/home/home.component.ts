@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Constants } from '../../constants/constants';
+import { HttpService } from '../../providers/http.service';
 
 const TONE_EXPRESION = {
   "joy": "bx--tag--ibm",
@@ -23,7 +24,7 @@ export class HomeComponent implements OnInit {
   sttData: any = Constants.stt_response.response;
   toneData: any = Constants.tone_response.response.sentences_tone;
 
-  constructor() { }
+  constructor(private http: HttpService) { }
 
   ngOnInit() {}
 
@@ -43,6 +44,11 @@ export class HomeComponent implements OnInit {
   }
 
   analyzeData() {
-
+    this.http.get('stt').subscribe((res) => {
+      console.log(res);
+      this.http.get('tone').subscribe((res) => {
+        console.log(res);
+      })
+    });
   }
 }

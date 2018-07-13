@@ -1,6 +1,6 @@
 export const Constants = {
   "backend" : {
-    "baseUrl": ""
+    "baseUrl": "localhost:8000/"
   },
   "stt_response" : {
     "response": [
