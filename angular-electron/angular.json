@@ -25,9 +25,12 @@
               "src/favicon.512x512.png"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/carbon-components/css/carbon-components.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/carbon-components/scripts/carbon-components.min.js"
+            ]
           },
           "configurations": {
             "dev": {
