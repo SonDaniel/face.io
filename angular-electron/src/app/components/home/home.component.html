@@ -1,5 +1,84 @@
 <div class="container">
-  <h1 class="title">
-    {{ 'PAGES.HOME.TITLE' | translate }}
-  </h1>
+  <div class="bx--grid">
+    <div class="bx--row">
+      <div class="bx--col-md-12">
+        <div class="bx--form-item video-input-container">
+          <div class="input-title">
+            <strong class="bx--label">Video File</strong>
+            <p class="bx--label-description">upload only video file.</p>
+            <div class="file-output-container" *ngIf="fileInput">
+              <p> {{ fileInput.name }} </p>
+              <span>
+                <svg width="16" height="16" viewBox="0 0 16 16" (click)="removeSelection()">
+                  <path d="M8 14.5c3.6 0 6.5-2.9 6.5-6.5S11.6 1.5 8 1.5 1.5 4.4 1.5 8s2.9 6.5 6.5 6.5zM8 16c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z">
+                  </path>
+                  <path d="M8 6.6l2.1-2.1 1.4 1.4L9.4 8l2.1 2.1-1.4 1.4L8 9.4l-2.1 2.1-1.4-1.4L6.6 8 4.5 5.9l1.4-1.4L8 6.6z"></path>
+                </svg>
+              </span>
+            </div>
+          </div>
+          <div class="bx--file">
+            <label for="videoFile" class="bx--file-btn bx--btn bx--btn--secondary" role="button" tabindex="0">Add file</label>
+            <input id="videoFile" type="file" (change)="setFile($event)" class="bx--file-input" accept="video/*" #videoFile/>
+          </div>
+          <div class="analyze-container">
+            <button class="bx--btn bx--btn--primary" type="button" (click)="analyzeData()" [disabled]="isDisabled">Analyze</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bx--row">
+      <div class="bx--col-md-12">
+        <ul data-progress data-progress-current class="bx--progress progress-container">
+          <li class="bx--progress-step bx--progress-step--complete">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+              <g fill-rule="nonzero">
+                <path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
+                <path d="M11.646 5.146l.708.708-5.604 5.603-3.104-3.103.708-.708 2.396 2.397z" />
+              </g>
+            </svg>
+            <p class="bx--progress-label">Speech-to-Text</p>
+            <span class="bx--progress-line"></span>
+          </li>
+          <li class="bx--progress-step bx--progress-step--current">
+            <svg>
+              <circle cx="12" cy="12" r="12"></circle>
+              <circle cx="12" cy="12" r="6"></circle>
+            </svg>
+            <p class="bx--progress-label">Tone Analyzer</p>
+            <span class="bx--progress-line"></span>
+          </li>
+          <li class="bx--progress-step bx--progress-step--incomplete">
+            <svg>
+              <circle cx="12" cy="12" r="12"></circle>
+            </svg>
+            <p class="bx--progress-label">Face Detector</p>
+            <span class="bx--progress-line"></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-container">
+      <div class="bx--tile">
+        <div class="stt-container">
+            <h3 class="title">Speech-to-Text</h3>
+            <div *ngFor="let question of sttData" class="stt-data">
+              <h6>{{question.question}}</h6>
+              <p>{{question.answer}}</p>
+            </div>
+        </div>
+        <div class="tone-container">
+          <h3 class="title">Tone Analyzer</h3>
+          <div *ngFor="let sentence of toneData" class="tone-data">
+            <span *ngIf="sentence.tones.length" [class]="getTone(sentence.tones[0].tone_id)">{{ sentence.tones[0].tone_name }}</span>
+            <p>{{sentence.text}}</p>
+          </div>
+        </div>
+        <div class="save-container">
+          <button class="bx--btn bx--btn--primary"  type="button">Save</button>
+        </div>
+      </div>
+  </div>
 </div>
