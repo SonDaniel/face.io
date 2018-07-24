@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+ 
+<html>
+<head>
+<title>Do or don't do there is no try</title>
+</head>
+<body>
+<h2>Yoda I am!</h2>
+<img src="https://upload.wikimedia.org/wikipedia/en/9/9b/Yoda_Empire_Strikes_Back.png">
+<button onclick="sendYoda()">Send Yoda to the Backend!</button>
+<div id="response">
+    <h3>This is where the json response will go</h3>
+    <div id="jsonResponse"></div>
+</div>
+<script>
+    function sendYoda() {
+        // download the image and get the binary data
+        var img = document.images[0];
+        console.log(img.src);
+        var imageData = atob(img.src.split(',')[1]);
+
+        var req = new XMLHttpRequest(); 
+        var url = '/image_endpoint';
+        req.open("POST", url, true); 
+
+        //Send the proper header information along with the request
+        req.setRequestHeader('Content-type', 'application/octet-stream');
+        // req.sendAsBinary(img);
+        req.onreadystatechange = function() {//Call a function when the state changes.
+        if(req.readyState == 4 && req.status == 200) {
+            // responseText
+            document.getElementById("jsonResponse").innerHTML = req.responseText;
+        }
+       
+       
+    }
+    req.send(imageData);
+}
+</script>
+</body>
+</html>
