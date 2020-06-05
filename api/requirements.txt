@@ -13,7 +13,7 @@ configparser==3.5.0
 constantly==15.1.0
 cryptography==2.2.2
 decorator==4.3.0
-Django==1.11.14
+Django==1.11.29
 entrypoints==0.2.3
 enum34==1.1.6
 functools32==3.2.3.post2
